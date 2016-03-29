@@ -2,7 +2,7 @@ from collections import namedtuple
 
 import psycopg2
 
-from test_comparison_dict import ComparisonDict
+from comparison_dict import ComparisonDict
 
 SchemaElement = namedtuple('SchemaElement', 'name length datatype')
 

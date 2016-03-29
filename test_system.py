@@ -3,7 +3,7 @@ import subprocess
 from datetime import date
 from time import sleep
 
-from test_comparison_dict import ComparisonDict
+from comparison_dict import ComparisonDict
 from db import Database
 
 class TestParser:
