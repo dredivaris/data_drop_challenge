@@ -1,4 +1,4 @@
-class TestComparisonDict(dict):
+class ComparisonDict(dict):
     def __eq__(self, other):
         if set(self.keys()) != set(other.keys()):
             return False

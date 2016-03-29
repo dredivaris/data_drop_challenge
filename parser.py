@@ -94,7 +94,6 @@ class FileParser(object):
 
         return data_rows
 
-
     def _enter_data(self, table_name, schema, prepped_data):
         with Database() as db:
             db.insert_rows(table_name, schema, prepped_data)

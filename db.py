@@ -2,6 +2,8 @@ from collections import namedtuple
 
 import psycopg2
 
+from test_comparison_dict import ComparisonDict
+
 SchemaElement = namedtuple('SchemaElement', 'name length datatype')
 
 
@@ -16,9 +18,30 @@ class Database(object):
     def __exit__(self, exc_type, exc_value, traceback):
         self.cur.close()
 
-    def fetch_all(self, table_name: str, schema: SchemaElement):
+    def fetch_all_as_dict(self, table_name: str):
+        columns = self.get_table_columns(table_name)
+        rows = []
         self.cur.execute('''SELECT * FROM {table_name};'''.format(table_name=table_name))
-        print(self.cur.fetchall())
+
+        for row in self.cur.fetchall():
+            dict_row = ComparisonDict()
+            for column, val in zip(columns, row):
+                if column[1] == 'boolean':
+                    dict_row[column[0]] = '1' if val else '0'
+                else:
+                    dict_row[column[0]] = val
+            rows.append(dict_row)
+        return rows
+
+
+    def get_table_columns(self, table_name: str):
+        query = '''
+          SELECT column_name, data_type from INFORMATION_SCHEMA.COLUMNS
+          WHERE table_name = '{table_name}';
+        '''.format(table_name=table_name)
+        self.cur.execute(query)
+
+        return [(info[0], info[1]) for info in self.cur.fetchall()]
 
     def create_table_if_not_exists(self, table_name: str, schema: list):
         table_columns = ','.join(['{} {}'.format(item.name, item.datatype) for item in schema])
