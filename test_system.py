@@ -30,6 +30,7 @@ class TestParser:
                 ComparisonDict({'name': 'Foonyor   ', 'valid': '1', 'count': '  1'}),
                 ComparisonDict({'name': 'Barzane   ', 'valid': '0', 'count': '-12'}),
                 ComparisonDict({'name': 'Quuxitude ', 'valid': '1', 'count': '103'}),
+                ComparisonDict({'name': 'Foobar    ', 'valid': '0', 'count': ' -3'})
             ]
             with open(datafile, 'w') as f:
                 for line in expected_data:
