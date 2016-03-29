@@ -1,6 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-.xml
-.csv
-data/
-specs/
-.idea/
+*.xml
+*.csv
+data
+specs
+.idea
