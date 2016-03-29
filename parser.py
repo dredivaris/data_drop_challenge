@@ -48,16 +48,19 @@ class FileParser(object):
             dir=self.data_dir, filename=find_matching_filename())
         
         # for each pair, 1) process spec
-        self._process_spec(spec_file)
+        table_name, schema = self._process_spec(spec_file)
         
         # 2) process data
-        self._process_data(matching_data_file)
+        prepped_data = self._parse_data(matching_data_file)
+
+        # 3) enter into table
+        self._enter_data(table_name, schema, prepped_data)
 
     def _process_spec(self, spec_file):
         print(spec_file)
         schema = []
-        with open(spec_file) as csvfile:
-            spec_reader = csv.reader(csvfile, delimiter=',')
+        with open(spec_file) as csv_file:
+            spec_reader = csv.reader(csv_file, delimiter=',')
             table_name = None
             for row in spec_reader:
                 if not table_name:
@@ -69,5 +72,10 @@ class FileParser(object):
                     schema.append(SchemaElement(name=name, length=length, datatype=type))
         return table_name, schema
 
-    def _process_data(self, matching_data_file):
+    def _process_data(self, matching_data_file, table_name, schema):
+        with open(matching_data_file) as data_file:
+            pass
+
+    def _enter_data(self):
         pass
+
