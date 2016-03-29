@@ -150,7 +150,7 @@ class TestParser:
 
             # verify values in db
             with Database() as db:
-                all_rows = db.fetch_all_as_dict('test1')
+                all_rows = db.fetch_all_as_dict('test3')
                 for row in all_rows:
                     assert row in self.expected_data_b
         finally:
