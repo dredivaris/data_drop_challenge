@@ -1,7 +1,10 @@
+import csv
 from os import listdir
 
 from os.path import isfile, join
 from time import sleep
+
+from db import SchemaElement
 
 
 class FileParser(object):
@@ -51,7 +54,20 @@ class FileParser(object):
         self._process_data(matching_data_file)
 
     def _process_spec(self, spec_file):
-        pass
+        print(spec_file)
+        schema = []
+        with open(spec_file) as csvfile:
+            spec_reader = csv.reader(csvfile, delimiter=',')
+            table_name = None
+            for row in spec_reader:
+                if not table_name:
+                    table_name, width, datatype = row
+                    if width != 'width' or datatype != 'datatype':
+                        raise ValueError('Invalid CSV format')
+                else:
+                    name, length, type = row
+                    schema.append(SchemaElement(name=name, length=length, datatype=type))
+        return table_name, schema
 
     def _process_data(self, matching_data_file):
         pass

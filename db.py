@@ -2,7 +2,7 @@ from collections import namedtuple
 
 import psycopg2
 
-SchemaElement = namedtuple('SchemaElement', 'name datatype')
+SchemaElement = namedtuple('SchemaElement', 'name length datatype')
 
 
 class Database(object):
