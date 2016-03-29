@@ -1,0 +1,4 @@
+teststuff,width,datatype
+name,10,TEXT
+valid,1,BOOLEAN
+count,3,INTEGER
