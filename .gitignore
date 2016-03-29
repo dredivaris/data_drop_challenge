@@ -1,4 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-workspace.xml
+.xml
+.csv
 data/
 specs/
+.idea/
