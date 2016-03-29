@@ -37,12 +37,7 @@ class Database(object):
                 yield '({vals})'.format(vals=', '.join((v for v in row)))
         gen = row_gen()
 
-        query = '''
-            INSERT INTO {table_name} ({names}) VALUES {values};
-                (1, 'Cheese', 9.99),
-                (2, 'Bread', 1.99),
-                (3, 'Milk', 2.99);
-        '''.format(
+        query = '''INSERT INTO {table_name} ({names}) VALUES {values};'''.format(
             table_name=table_name,
             names=', '.join(schema_names),
             values=', '.join((row for row in row_gen)))
