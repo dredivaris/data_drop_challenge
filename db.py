@@ -16,7 +16,7 @@ class Database(object):
     def __exit__(self, exc_type, exc_value, traceback):
         self.cur.close()
 
-    def fetch_all(self, table_name: str, schema: Schema):
+    def fetch_all(self, table_name: str, schema: SchemaElement):
         self.cur.execute('''SELECT * FROM {table_name};'''.format(table_name=table_name))
         print(self.cur.fetchall())
 
