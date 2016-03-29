@@ -1,15 +1,12 @@
+import os
+import subprocess
+from datetime import date
 from time import sleep
 
-import pytest
-import subprocess
-
-from datetime import date
-
+from test_comparison_dict import TestComparisonDict
 from db import Database
 
-
 class TestParser:
-
     def compare_test_data(self, input_dict, response_dict):
         if input_dict.keys() != response_dict.keys():
             return False
@@ -20,6 +17,8 @@ class TestParser:
 
     def test_parser_basic(self):
         # run command line parser
+        today = date.today().strftime('%Y-%m-%d')
+        datafile = 'data/testformat1_{dt}.txt'.format(dt=today)
         successful_end = subprocess.call("./file_parser_daemon.py")
         assert successful_end == 0
 
@@ -27,14 +26,13 @@ class TestParser:
         with open('specs/testformat1.csv', 'w') as f:
             f.write('test1,width,datatype\nname,10,TEXT\nvalid,1,BOOLEAN\ncount,3,INTEGER')
 
-        today = date.today().strftime('%Y-%m-%d')
         # generate date
         expected_data = [
-            {'name': 'Foonyor   ', 'valid': '1', 'count': '  1'},
-            {'name': 'Barzane   ', 'valid': '0', 'count': '-12'},
-            {'name': 'Quuxitude ', 'valid': '1', 'count': '103'},
+            TestComparisonDict({'name': 'Foonyor   ', 'valid': '1', 'count': '  1'}),
+            TestComparisonDict({'name': 'Barzane   ', 'valid': '0', 'count': '-12'}),
+            TestComparisonDict({'name': 'Quuxitude ', 'valid': '1', 'count': '103'}),
         ]
-        with open('data/testformat1_{dt}.txt'.format(dt=today), 'w') as f:
+        with open(datafile, 'w') as f:
             for line in expected_data:
                 f.write('{name}{valid}{count}\n'.format(name=line['name'],
                                                         valid=line['valid'],
@@ -42,11 +40,10 @@ class TestParser:
         sleep(.1)
 
         # verify values in db
-        # with Database() as db:
-        #     all_rows = db.fetchall('test1')
-        #     for row in all_rows:
-                
-                
-            # use package_obj
-
+        with Database() as db:
+            all_rows = db.fetchall('test1')
+            for row in all_rows:
+                assert row in expected_data
         # cleanup
+        os.remove('specs/testformat1.csv')
+        os.remove(datafile)
