@@ -13,9 +13,9 @@ def run_parser(app):
     file_parser = FileParser('data', 'specs')
     file_parser()
 
-# TODO: remove daemonize
 run_parser.add_param("-d", "--daemonize", help="daemonize parser",
                      default=False, action="store_true")
+
 
 if __name__ == "__main__":
     run_parser.run()
