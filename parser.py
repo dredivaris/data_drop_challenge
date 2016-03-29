@@ -54,13 +54,10 @@ class FileParser(object):
         # 2) process data
         prepped_data = self._parse_data(matching_data_file, schema)
 
-        # print(prepped_data)
-
         # 3) enter into table
         self._enter_data(table_name, schema, prepped_data)
 
     def _process_spec(self, spec_file):
-        print(spec_file)
         schema = []
         with open(spec_file) as csv_file:
             spec_reader = csv.reader(csv_file, delimiter=',')
@@ -79,6 +76,7 @@ class FileParser(object):
         data_rows = []
         with open(matching_data_file) as data_file:
             for line in data_file:
+                # print(line)
                 row = []
                 s = StringIO(line)
                 for schema_item in schema:
