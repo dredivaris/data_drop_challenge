@@ -1,10 +1,11 @@
 import csv
+from io import StringIO
 from os import listdir
 
 from os.path import isfile, join
 from time import sleep
 
-from db import SchemaElement
+from db import SchemaElement, Database
 
 
 class FileParser(object):
@@ -51,7 +52,9 @@ class FileParser(object):
         table_name, schema = self._process_spec(spec_file)
         
         # 2) process data
-        prepped_data = self._parse_data(matching_data_file)
+        prepped_data = self._parse_data(matching_data_file, schema)
+
+        # print(prepped_data)
 
         # 3) enter into table
         self._enter_data(table_name, schema, prepped_data)
@@ -69,13 +72,31 @@ class FileParser(object):
                         raise ValueError('Invalid CSV format')
                 else:
                     name, length, type = row
-                    schema.append(SchemaElement(name=name, length=length, datatype=type))
+                    schema.append(SchemaElement(name=name, length=int(length), datatype=type))
         return table_name, schema
 
-    def _process_data(self, matching_data_file, table_name, schema):
+    def _parse_data(self, matching_data_file, schema):
+        data_rows = []
         with open(matching_data_file) as data_file:
-            pass
+            for line in data_file:
+                row = []
+                s = StringIO(line)
+                for schema_item in schema:
+                    raw_data = s.read(schema_item.length)
+                    if schema_item.datatype == 'TEXT':
+                        val = "'{}'".format(raw_data.strip())
+                    elif schema_item.datatype == 'BOOLEAN':
+                        val = bool(int(raw_data))
+                    else:
+                        val = int(raw_data)
+                    row.append(val)
+                data_rows.append(row)
 
-    def _enter_data(self):
-        pass
+        return data_rows
+
+
+    def _enter_data(self, table_name, schema, prepped_data):
+        with Database() as db:
+            db.insert_rows(table_name, schema, prepped_data)
+
 
