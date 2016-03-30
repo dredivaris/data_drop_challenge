@@ -79,5 +79,11 @@ class Database(object):
         self.cur.execute(query)
         return True if self.cur.fetchone() else False
 
-
+    def count_table_rows(self, table_name: str) -> int:
+        query = 'SELECT count(*) AS count FROM {};'.format(table_name)
+        self.cur.execute(query)
+        try:
+            return int(self.cur.fetchone()[0])
+        except:
+            return 0
 
