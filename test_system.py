@@ -6,6 +6,7 @@ from time import sleep
 from comparison_dict import ComparisonDict
 from db import Database
 
+
 class TestParser:
     schema_a = ['test1,width,datatype', 'name,10,TEXT', 'valid,1,BOOLEAN', 'count,3,INTEGER']
     expected_data_a = [
@@ -40,14 +41,6 @@ class TestParser:
     @staticmethod
     def _schema_to_csv_string(schema):
         return '\n'.join(schema)
-
-    def compare_test_data(self, input_dict, response_dict):
-        if input_dict.keys() != response_dict.keys():
-            return False
-        for key in input_dict.keys():
-            if str(input_dict[key]).strip() != str(response_dict[key]).strip():
-                return False
-        return True
 
     def test_parser_basic(self):
         try:
