@@ -213,12 +213,43 @@ class TestParserAsDaemon(ParserTestData):
                 for row in all_rows:
                     assert row in self.expected_data_a
 
+
+            sleep(.5)
+
+            # also test other dataset
+            specsfile = 'specs/testformat_b.csv'
+            datafile = 'data/testformat_b_{dt}.txt'.format(dt=today)
+
+            # create spec and data files
+            with open(specsfile, 'w') as f:
+
+                f.write(TestParserOneTime._schema_to_csv_string(self.schema_b))
+
+            with open(datafile, 'w') as f:
+                for line in self.expected_data_b:
+                    print(line.values())
+                    f.write('{}\n'.format(''.join(line.values())))
+                    # f.write('{name}{valid}{count}\n'.format(name=line['name'],
+                    #                                         valid=line['valid'],
+                    #                                         count=line['count']))
+            sleep(.1)
+
+            # run app
+            successful_end = subprocess.call("./file_parser_daemon.py")
+            assert successful_end == 0
+
+            # verify values in db
+            with Database() as db:
+                all_rows = db.fetch_all_as_dict('test3')
+                for row in all_rows:
+                    assert row in self.expected_data_b
+
         finally:
             # cleanup
             try:
                 os.remove(specsfile)
                 os.remove(datafile)
-                self._remove_test_tables('test1')
+                self._remove_test_tables('test1', 'test3')
             except:
                 pass
 
