@@ -56,7 +56,6 @@ class Database(object):
     def insert_rows(self, table_name: str, schema: list, data_rows: list):
         schema_names = [s.name for s in schema]
 
-        # TODO: do we need a generator here? may be confusing for future devs
         def row_gen():
             for row in data_rows:
                 yield '({vals})'.format(vals=', '.join((str(v) for v in row)))
