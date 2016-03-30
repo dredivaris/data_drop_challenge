@@ -9,12 +9,12 @@ from db import Database
 class TestParser:
     schema_a = ['test1,width,datatype', 'name,10,TEXT', 'valid,1,BOOLEAN', 'count,3,INTEGER']
     expected_data_a = [
-        ComparisonDict({'name': 'Foonyor   ', 'valid': '1', 'count': '  1'}),
-        ComparisonDict({'name': 'Barzane   ', 'valid': '0', 'count': '-12'}),
-        ComparisonDict({'name': 'Quuxitude ', 'valid': '1', 'count': '103'}),
-        ComparisonDict({'name': 'Foobar    ', 'valid': '0', 'count': ' -3'}),
-        ComparisonDict({'name': 'Foo2      ', 'valid': '1', 'count': '999'}),
-        ComparisonDict({'name': 'Foo3      ', 'valid': '0', 'count': ' -1'})
+        ComparisonDict((('name', 'Foonyor   '), ('valid', '1'), ('count', '  1'))),
+        ComparisonDict((('name', 'Barzane   '), ('valid', '0'), ('count', '-12'))),
+        ComparisonDict((('name', 'Quuxitude '), ('valid', '1'), ('count', '103'))),
+        ComparisonDict((('name', 'Foobar    '), ('valid', '0'), ('count', ' -3'))),
+        ComparisonDict((('name', 'Foo2      '), ('valid', '1'), ('count', '999'))),
+        ComparisonDict((('name', 'Foo3      '), ('valid', '0'), ('count', ' -1')))
     ]
 
     schema_b = [
