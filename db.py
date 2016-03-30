@@ -69,3 +69,7 @@ class Database(object):
 
         # print (query)
         self.cur.execute(query)
+
+    def remove_table(self, table_name: str):
+        query = 'DROP TABLE {table_name};'.format(table_name=table_name)
+        self.cur.execute(query)

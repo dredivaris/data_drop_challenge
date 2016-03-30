@@ -29,8 +29,8 @@ class FileParser(object):
             if one_pass:
                 break
             else:
-                # repeat every second
-                sleep(1)
+                # repeat 4 times a second
+                sleep(.25)
 
     def _process_files(self, spec, data_files):
         spec_file = '{dir}/{filename}.csv'.format(dir=self.specs_dir, filename=spec)
