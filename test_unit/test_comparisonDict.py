@@ -11,6 +11,7 @@ class TestComparisonDict:
         e = ComparisonDict((('name', 'Foonyos   '), ('valid', '0'), ('count', '  9')))
         f = ComparisonDict((('name', 'Foonyor   '), ('valid', '1'), ('count', '  1'),
                             ('new_val', '0')))
+        g = ComparisonDict((('name', 'Jack'),))
 
         assert a == b
         assert b == a
@@ -19,3 +20,4 @@ class TestComparisonDict:
         assert a != d
         assert a != e
         assert a != f
+        assert a != g and b != g
