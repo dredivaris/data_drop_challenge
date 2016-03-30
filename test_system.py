@@ -6,8 +6,7 @@ from time import sleep
 from comparison_dict import ComparisonDict
 from db import Database
 
-
-class TestParser:
+class ParserTestData:
     schema_a = ['test1,width,datatype', 'name,10,TEXT', 'valid,1,BOOLEAN', 'count,3,INTEGER']
     expected_data_a = [
         ComparisonDict((('name', 'Foonyor   '), ('valid', '1'), ('count', '  1'))),
@@ -38,6 +37,7 @@ class TestParser:
              ('make', 'ford   '), ('stock', '1')))
     ]
 
+class TestParserOneTime(ParserTestData):
     @staticmethod
     def _schema_to_csv_string(schema):
         return '\n'.join(schema)
@@ -51,7 +51,7 @@ class TestParser:
             # create spec and data files
             with open(specsfile, 'w') as f:
 
-                f.write(TestParser._schema_to_csv_string(self.schema_a))
+                f.write(TestParserOneTime._schema_to_csv_string(self.schema_a))
 
             with open(datafile, 'w') as f:
                 for line in self.expected_data_a:
@@ -129,7 +129,7 @@ class TestParser:
             # create spec and data files
             with open(specsfile, 'w') as f:
 
-                f.write(TestParser._schema_to_csv_string(self.schema_b))
+                f.write(TestParserOneTime._schema_to_csv_string(self.schema_b))
 
             with open(datafile, 'w') as f:
                 for line in self.expected_data_b:
@@ -156,3 +156,6 @@ class TestParser:
                 os.remove(datafile)
             except:
                 pass
+
+class TestParserAsDaemon(ParserTestData):
+    pass
