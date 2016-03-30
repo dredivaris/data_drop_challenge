@@ -3,12 +3,14 @@ from collections import namedtuple
 import psycopg2
 
 from comparison_dict import ComparisonDict
+from config import db_name, user, host
 
 SchemaElement = namedtuple('SchemaElement', 'name length datatype')
 
 
 class Database(object):
-    conn = psycopg2.connect("dbname='clover' user='dredivaris' host='localhost'")
+    conn = psycopg2.connect("dbname='{}' user='{}' host='{}'".format(
+        db_name, user, host))
 
     def __enter__(self):
         self.conn.autocommit = True
@@ -65,7 +67,6 @@ class Database(object):
             names=', '.join(schema_names),
             values=', '.join((row for row in row_gen())))
 
-        # print (query)
         self.cur.execute(query)
 
     def remove_table(self, table_name: str):
