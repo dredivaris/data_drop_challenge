@@ -27,11 +27,14 @@ class TestParser:
     ]
     expected_data_b = [
         ComparisonDict(
-            (('size', '234'), ('weight', ' 23'), ('model', 'sentra  '), ('make', 'nissan '), ('stock', '0'))),
+            (('size', '234'), ('weight', ' 23'), ('model', 'sentra  '),
+             ('make', 'nissan '), ('stock', '0'))),
         ComparisonDict(
-            (('size', ' 94'), ('weight', '  9'), ('model', 'cruze   '), ('make', 'chevy  '), ('stock', '1'))),
+            (('size', ' 94'), ('weight', '  9'), ('model', 'cruze   '),
+             ('make', 'chevy  '), ('stock', '1'))),
         ComparisonDict(
-            (('size', '934'), ('weight', '612'), ('model', 'F-350   '), ('make', 'ford   '), ('stock', '1')))
+            (('size', '934'), ('weight', '612'), ('model', 'F-350   '),
+             ('make', 'ford   '), ('stock', '1')))
     ]
 
     @staticmethod
