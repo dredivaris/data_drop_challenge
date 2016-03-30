@@ -58,14 +58,12 @@ class Database(object):
         def row_gen():
             for row in data_rows:
                 yield '({vals})'.format(vals=', '.join((str(v) for v in row)))
-        gen = row_gen()
-
         self.create_table_if_not_exists(table_name, schema)
 
         query = '''INSERT INTO {table_name} ({names}) VALUES {values};'''.format(
             table_name=table_name,
             names=', '.join(schema_names),
-            values=', '.join((row for row in gen)))
+            values=', '.join((row for row in row_gen())))
 
         # print (query)
         self.cur.execute(query)
