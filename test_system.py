@@ -1,5 +1,7 @@
 import os
 import subprocess
+import pytest
+
 from datetime import date
 from time import sleep
 
@@ -7,6 +9,7 @@ import psutil as psutil
 
 from comparison_dict import ComparisonDict
 from db import Database
+
 
 class ParserTestData:
     schema_a = ['test1,width,datatype', 'name,10,TEXT', 'valid,1,BOOLEAN', 'count,3,INTEGER']
@@ -49,13 +52,12 @@ class ParserTestData:
             for arg in args:
                 db.remove_table(arg)
 
-
-
     @staticmethod
     def _create_files():
         pass
 
 
+@pytest.mark.second_to_last
 class TestParserOneTime(ParserTestData):
     def test_parser_basic(self):
         try:
@@ -176,6 +178,7 @@ class TestParserOneTime(ParserTestData):
                 pass
 
 
+@pytest.mark.last
 class TestParserAsDaemon(ParserTestData):
     def test_parser_continuous_basic(self):
         # successful_end = subprocess.call(["./file_parser_daemon.py", "-d"])

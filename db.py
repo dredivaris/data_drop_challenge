@@ -73,3 +73,11 @@ class Database(object):
     def remove_table(self, table_name: str):
         query = 'DROP TABLE {table_name};'.format(table_name=table_name)
         self.cur.execute(query)
+
+    def table_exists(self, table_name: str) -> bool:
+        query = '''SELECT relname FROM pg_class WHERE relname = '{}';'''.format(table_name)
+        self.cur.execute(query)
+        return True if self.cur.fetchone() else False
+
+
+
