@@ -6,3 +6,4 @@ data
 specs
 .idea
 .cache
+__pycache__
